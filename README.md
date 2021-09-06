@@ -1,9 +1,6 @@
-# clojure-clr-monogame-test
-[Under testing]
+# Flappy bird Clone on Clojure CLR (.NET) using monogame
 
 ## Flappy Bird Clone
-
-![](pong-480.gif)
 
 ## Requirements
 
