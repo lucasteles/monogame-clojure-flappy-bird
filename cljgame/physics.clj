@@ -1,9 +1,8 @@
 (ns cljgame.physics
-  (:require [cljgame.interop :refer [load-monogame]])
-  (:import [System Math]))
+  (:require [cljgame.utils :refer [load-deps!]])
+  (:import [System Math]) )
 
-(load-monogame)
-
+(load-deps!)
 (import [tainicom.Aether.Physics2D.Dynamics World BodyType Body Fixture]
         [tainicom.Aether.Physics2D.Dynamics.Contacts Contact]
         [Microsoft.Xna.Framework Color Vector2 Rectangle])

@@ -1,5 +1,5 @@
 (ns cljgame.game
-  (:require [cljgame.interop :refer [int32]]
+  (:require [cljgame.utils :refer [int32]]
             [cljgame.monogame :as g]
             [cljgame.physics :as physics]
             [cljgame.entities.floor :as floor]
@@ -68,5 +68,5 @@
   (g/end sprite-batch))
 
 (defn -main [& args]
-  (Console/WriteLine "Ola Delboni")
+  (println "Ola Delboni")
   (g/run (constantly nil) initialize update- draw))

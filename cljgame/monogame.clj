@@ -1,10 +1,9 @@
 (ns cljgame.monogame
-  (:require [cljgame.interop :refer [current-exe-dir get-prop load-monogame]])
-  (:import [System.IO Directory Path Directory]
+  (:require [cljgame.utils :refer [bin-dir get-prop load-deps!]])
+  (:import [System.IO Path Directory]
            [System.Linq Enumerable]))
 
-(load-monogame)
-
+(load-deps!)
 (import [Microsoft.Xna.Framework Game GraphicsDeviceManager Color Vector2 Rectangle GameWindow]
         [Microsoft.Xna.Framework.Graphics SpriteBatch Texture2D SpriteSortMode SpriteEffects SpriteFont]
         [Microsoft.Xna.Framework.Content ContentManager]
@@ -14,7 +13,7 @@
 
 (def graphics-device (fn [game] (get-prop game "GraphicsDevice")))
 (def debug-content-path (Path/Combine (Directory/GetCurrentDirectory) "Content/bin/DesktopGL"))
-(def exe-content-path (Path/Combine current-exe-dir "Content"))
+(def exe-content-path (Path/Combine bin-dir "Content"))
 
 (defn run [load-fn initialize-fn update-fn draw-fn]
   (let [props (atom {:state {} :forced false})
@@ -85,16 +84,18 @@
 
 (defn end [sprite-batch] (.End sprite-batch))
 
+(def get-content (memoize (fn [game] (get-prop game "Content"))))
+
 (defn load-texture-2d [game texture-name]
-  (let [content (get-prop game "Content")]
+  (let [content (get-content game)]
     (.Load ^ContentManager content (type-args Texture2D) texture-name)))
 
 (defn load-sprite-font [game font-name]
-  (let [content (get-prop game "Content")]
+  (let [content (get-content game)]
     (.Load ^ContentManager content (type-args SpriteFont) font-name)))
 
 (defn load-sound-effect [game sound]
-  (let [content (get-prop game "Content")]
+  (let [content (get-content game)]
     (.Load ^ContentManager content (type-args SoundEffect) sound)))
 
 (defn sound-effect-instance [^SoundEffect sound-effect]
@@ -102,7 +103,7 @@
 (defn play [sound] (.Play sound))
 
 (defn load-song [game song]
-  (let [content (get-prop game "Content")]
+  (let [content (get-content game)]
     (.Load ^ContentManager content (type-args Song) song)))
 
 (defn vect
@@ -197,7 +198,7 @@
    :peach-puff Color/PeachPuff :peru Color/Peru :pink Color/Pink :plum Color/Plum :powder-blue Color/PowderBlue :purple Color/Purple
    :red Color/Red :rosy-brown Color/RosyBrown :royal-blue Color/RoyalBlue :saddle-brown Color/SaddleBrown :salmon Color/Salmon :sandy-brown Color/SandyBrown :sea-green Color/SeaGreen
    :sea-shell Color/SeaShell :sienna Color/Sienna :silver Color/Silver :sky-blue Color/SkyBlue :slate-blue Color/SlateBlue :slate-gray Color/SlateGray :snow Color/Snow :spring-green Color/SpringGreen
-   :steel-blue Color/SteelBlue :tan Color/Tan :teal Color/Teal :thistle Color/Thistle :tomato Color/Tomato :transparent Color/Transparent :transparent-black Color/TransparentBlack :turquoise Color/Turquoise
+   :steel-blue Color/SteelBlue :tan Color/Tan :teal Color/Teal :thistle Color/Thistle :tomato Color/Tomato :transparent Color/Transparent :turquoise Color/Turquoise
    :violet Color/Violet :wheat Color/Wheat :white Color/White :white-smoke Color/WhiteSmoke :yellow Color/Yellow :yellow-green Color/YellowGreen })
 
 (def sprite-effects-map {
@@ -265,4 +266,4 @@
 
     :else
     (throw (new Exception "INVALID DRAW TEXT PARAMETERS")))))
-
+    
