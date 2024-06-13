@@ -68,5 +68,5 @@
   (g/end sprite-batch))
 
 (defn -main [& args]
-  (println "Ola Delboni")
+  (println "Hi Delboni")
   (g/run (constantly nil) initialize update- draw))

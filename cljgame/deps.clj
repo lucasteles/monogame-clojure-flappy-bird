@@ -1,7 +1,7 @@
 (ns cljgame.deps)
 
 (def proj {
-    :framework "net6.0"
+    :framework "net8.0"
     :configuration "Debug"
 })
 
